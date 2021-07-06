@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		  $(".btn1").click(function(){
+		    $.ajax({
+		    url: "http://localhost:8080/CategoryRestService/FindAll", 
+		    success: function(result){
+		    	console.log(result);
+		    	var obj = result,  
+		        ul = $("<ul>");     
+		     	for (var i = 0, l = obj.length; i < l; ++i) {
+		        ul.append("<li> " + obj[i].id + " --- " + obj[i].description + "</li>");
+		     }
+		     $("#div1").append(ul); 
+		    }});
+		  });
+		$(".btn7").click(function(){
+			var nombre = $("#id7").val();
+			var descripcion = $("#id8").val();
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/CategoryRestService/Add", 
+				contentType: 'application/json',
+				data: JSON.stringify(
+					{	
+						"name":nombre,
+						"description":descripcion
+					}
+				),
+				success: function(result){
+					console.log(result);
+					//$("#div7").html(result);
+				},
+				error : function(xhr, status) {
+					console.log(xhr);
+				}
+			}); 
+		});
+	});
+</script>
+</head>
+<body>
+
+<div><h2>Mostrar</h2></div>
+<div id="div1">CATEGORIAS
+	<button class="btn1">Click para ver</button>
+</div><br>
+
+<div id="div7">Nueva Categoria<br>
+	Nombre <input type="text" id="id7">
+	Descripcion <input type="text" id="id8">
+	<button class="btn7">Send</button><br>
+</div><br>
+
+</body>
+</html>
+
